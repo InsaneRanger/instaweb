@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.myweb.instaweb.entity.roles.Roles;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -61,6 +59,16 @@ public class User {
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
+    /**Spring Security Grand Authority interface return List collection
+     *
+     * see more: https://github.com/spring-projects/spring-security/blob/
+     * master/core/src/main/java/org/springframework/security/core/
+     * Authentication.java
+     *
+     * */
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
+    /**Before you start working with Persistent context*/
     @PrePersist
     protected void onCreate() {
         this.createdDate = LocalDateTime.now();
