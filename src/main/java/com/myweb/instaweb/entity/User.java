@@ -16,72 +16,105 @@ import java.util.*;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    /** For db Generation Type*/
+    /**
+     * For db Generation Type
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /** Not null*/
+    /**
+     * Not null
+     */
     @Column(nullable = false)
     private String name;
-    /** Unique, not update */
+    /**
+     * Unique, not update
+     */
     @Column(unique = true, updatable = false)
     private String username;
-    /** Not Null*/
+    /**
+     * Not Null
+     */
     @Column(nullable = false)
     private String lastname;
-    /** Unique */
+    /**
+     * Unique
+     */
     @Column(unique = true)
     private String email;
 
-    /** Increase field capacity
+    /**
+     * Increase field capacity
      * ( MB we make use @Lob @Type(type = "org.hibernate.type.TextType" or type="org.hibernate.type.BinaryType")
-     *  for Postgres, because PG have LOB 2 TYPES -> BLOB, CLOB. If you use
-     *  Oracle it is enough to use @Lob or @Column(columnDefinition = "text")
+     * for Postgres, because PG have LOB 2 TYPES -> BLOB, CLOB. If you use
+     * Oracle it is enough to use @Lob or @Column(columnDefinition = "text")
      */
     @Column(columnDefinition = "text")
     private String bio;
 
-    /** length = 3000 for using bcrypt*/
+    /**
+     * length = 3000 for using bcrypt
+     */
     @Column(length = 3000)
     private String password;
 
-    /** Dependency ROLES -> USER */
+    /**
+     * Dependency ROLES -> USER
+     */
     @ElementCollection(targetClass = Roles.class)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"))
     private Set<Roles> roles = new HashSet<>();
 
-    /** Relationship between the user and the number of posts*/
+    /**
+     * Relationship between the user and the number of posts
+     */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
-    /** When created user with pattern and not update time*/
+    /**
+     * When created user with pattern and not update time
+     */
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
-    /**Spring Security Grand Authority interface return List collection
-     *
+    /**
+     * Spring Security Grand Authority interface return List collection
+     * <p>
      * see more: https://github.com/spring-projects/spring-security/blob/
      * master/core/src/main/java/org/springframework/security/core/
      * Authentication.java
-     *
-     * */
+     */
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
-    /**Before you start working with Persistent context*/
+
+    /**
+     * Constructor for Spring Security JWT
+     */
+    public User(Long id,
+                String username,
+                String email,
+                String password,
+                Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+    }
+
+    /**
+     * Before you start working with Persistent context
+     */
     @PrePersist
     protected void onCreate() {
         this.createdDate = LocalDateTime.now();
     }
 
-
-
     /**
-     *
      * Security from Spring (UserDetails)
-     *
-     * */
+     */
 
 
     @Override
@@ -107,19 +140,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    /** Constructor for Spring Security JWT*/
-    public User(Long id,
-                String username,
-                String email,
-                String password,
-                Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
     }
 
 }

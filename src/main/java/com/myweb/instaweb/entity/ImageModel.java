@@ -27,7 +27,7 @@ public class ImageModel {
     @Column(nullable = false)
     private String name;
     @Lob
-    @Type(type="org.hibernate.type.BinaryType")
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] imageByte;
     @JsonIgnore
     private Long userId;

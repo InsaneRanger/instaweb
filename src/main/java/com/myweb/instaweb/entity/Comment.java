@@ -15,19 +15,22 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    /**One comment -> One post */
+    /**
+     * One comment -> One post
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private Long userId;
-    /** Increase field capacity
+    /**
+     * Increase field capacity
      * ( MB we make use @Lob @Type(type = "org.hibernate.type.TextType")
-     *  for Postgres, because PG have LOB 2 TYPES -> BLOB, CLOB. If you use
-     *  Oracle it is enough to use @Lob or @Column(columnDefinition = "text")
-     *
-     *  Not nullable
+     * for Postgres, because PG have LOB 2 TYPES -> BLOB, CLOB. If you use
+     * Oracle it is enough to use @Lob or @Column(columnDefinition = "text")
+     * <p>
+     * Not nullable
      */
     @Column(columnDefinition = "text", nullable = false)
     private String message;

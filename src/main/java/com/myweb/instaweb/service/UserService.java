@@ -31,7 +31,9 @@ public class UserService {
     }
 
 
-    /** Mapping model attribute and Bcrypt password from database  */
+    /**
+     * Mapping model attribute and Bcrypt password from database
+     */
     public User createUser(SignupRequest userIn) {
         User user = new User();
         user.setEmail(userIn.getEmail());
@@ -43,7 +45,7 @@ public class UserService {
         try {
             log.info("Saving user {}", userIn.getEmail());
             return userRepository.save(user);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             log.error("Error during registration {}", exception.getMessage());
             throw new UserExistException("The user " + user.getUsername() + " alredy exist. Please check conditionals");
         }

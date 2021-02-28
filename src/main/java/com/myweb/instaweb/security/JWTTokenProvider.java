@@ -23,14 +23,14 @@ import java.util.Map;
 @Component
 public class JWTTokenProvider {
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
         Date expiryDate = new Date(now.getTime() + SecurityConstants.EXPIRATION_TIME);
 
         String userId = Long.toString(user.getId());
 
-        Map<String,Object> claimsMap = new HashMap<>();
+        Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("id", userId);
         claimsMap.put("username", user.getEmail());
         claimsMap.put("firstname", user.getName());
@@ -41,7 +41,7 @@ public class JWTTokenProvider {
                 .addClaims(claimsMap)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512,SecurityConstants.SECRET)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
     }
 
@@ -63,7 +63,9 @@ public class JWTTokenProvider {
 
     }
 
-    /**Get  id from token*/
+    /**
+     * Get  id from token
+     */
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()

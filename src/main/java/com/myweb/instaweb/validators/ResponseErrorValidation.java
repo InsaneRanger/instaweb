@@ -1,11 +1,10 @@
 package com.myweb.instaweb.validators;
 
 
-
-
 /**
- *Class return Map with Errors or nothing -)
+ * Class return Map with Errors or nothing -)
  */
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

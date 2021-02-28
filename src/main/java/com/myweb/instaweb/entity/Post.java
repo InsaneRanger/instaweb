@@ -38,14 +38,18 @@ public class Post {
     @ElementCollection(targetClass = String.class)
     private Set<String> likedUsers = new HashSet<>();
 
-    /** Many posts -> one user*/
+    /**
+     * Many posts -> one user
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    /**One post ->many comments.
+    /**
+     * One post ->many comments.
      * CT. REFRESH -> When we refresh an entity all the entities
      * held in this field refresh too.
-     * Fetch EAGER to see the comments immediately */
+     * Fetch EAGER to see the comments immediately
+     */
     @OneToMany(
             cascade = CascadeType.REFRESH,
             fetch = FetchType.EAGER,
