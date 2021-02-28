@@ -33,7 +33,7 @@ public class User {
     private String email;
 
     /** Increase field capacity
-     * ( MB we make use @Lob @Type(type = "org.hibernate.type.TextType")
+     * ( MB we make use @Lob @Type(type = "org.hibernate.type.TextType" or type="org.hibernate.type.BinaryType")
      *  for Postgres, because PG have LOB 2 TYPES -> BLOB, CLOB. If you use
      *  Oracle it is enough to use @Lob or @Column(columnDefinition = "text")
      */
@@ -47,7 +47,7 @@ public class User {
     /** Dependency ROLES -> USER */
     @ElementCollection(targetClass = Roles.class)
     @CollectionTable(name = "user_role",
-    joinColumns = @JoinColumn("user_id"))
+            joinColumns = @JoinColumn(name = "user_id"))
     private Set<Roles> roles = new HashSet<>();
 
     /** Relationship between the user and the number of posts*/
