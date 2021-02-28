@@ -5,6 +5,7 @@ import com.myweb.instaweb.entity.roles.Roles;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     /** For db Generation Type*/
     @Id
@@ -74,5 +75,51 @@ public class User {
         this.createdDate = LocalDateTime.now();
     }
 
+
+
+    /**
+     *
+     * Security from Spring (UserDetails)
+     *
+     * */
+
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /** Constructor for Spring Security JWT*/
+    public User(Long id,
+                String username,
+                String email,
+                String password,
+                Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
 }
