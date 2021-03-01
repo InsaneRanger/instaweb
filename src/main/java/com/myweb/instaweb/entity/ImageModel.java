@@ -16,9 +16,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
-@Data
+
 @Entity
-@NoArgsConstructor
+@Data
 public class ImageModel {
 
     @Id
@@ -27,12 +27,14 @@ public class ImageModel {
     @Column(nullable = false)
     private String name;
     @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] imageByte;
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageBytes;
     @JsonIgnore
     private Long userId;
     @JsonIgnore
     private Long postId;
 
-
+    public ImageModel() {
+    }
 }
+
