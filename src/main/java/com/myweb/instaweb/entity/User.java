@@ -13,7 +13,6 @@ import java.util.*;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class User implements UserDetails {
 
     /**
@@ -104,6 +103,10 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
 
+    public User() {
+
+    }
+
     /**
      * Before you start working with Persistent context
      */
@@ -115,7 +118,6 @@ public class User implements UserDetails {
     /**
      * Security from Spring (UserDetails)
      */
-
 
     @Override
     public String getPassword() {

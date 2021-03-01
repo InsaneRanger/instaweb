@@ -21,23 +21,23 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 @PreAuthorize("permitAll()")
 public class AuthController {
 
-    private ResponseErrorValidation responseErrorValidation;
-    private UserService userService;
-    private AuthenticationManager authenticationManager;
-    private JWTTokenProvider jwtTokenProvider;
+    private final JWTTokenProvider jwtTokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final ResponseErrorValidation responseErrorValidation;
+    private final UserService userService;
 
-    @Autowired
-    public AuthController(ResponseErrorValidation responseErrorValidation, UserService userService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public AuthController(JWTTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager, ResponseErrorValidation responseErrorValidation, UserService userService) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.authenticationManager = authenticationManager;
         this.responseErrorValidation = responseErrorValidation;
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/signin")
@@ -49,11 +49,13 @@ public class AuthController {
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         ));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
         return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {
@@ -63,4 +65,5 @@ public class AuthController {
         userService.createUser(signupRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
 }

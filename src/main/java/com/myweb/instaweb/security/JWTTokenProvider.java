@@ -23,6 +23,7 @@ import java.util.Map;
 @Component
 public class JWTTokenProvider {
 
+
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
@@ -43,6 +44,7 @@ public class JWTTokenProvider {
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
+
     }
 
     public boolean validateToken(String token) {
@@ -51,21 +53,15 @@ public class JWTTokenProvider {
                     .setSigningKey(SecurityConstants.SECRET)
                     .parseClaimsJws(token);
             return true;
-
-        } catch (SignatureException |
+        }catch (SignatureException |
                 MalformedJwtException |
                 ExpiredJwtException |
                 UnsupportedJwtException |
-                IllegalArgumentException exception) {
-            log.error(exception.getMessage());
+                IllegalArgumentException ex) {
+            log.error(ex.getMessage());
             return false;
         }
-
     }
-
-    /**
-     * Get  id from token
-     */
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
@@ -75,4 +71,5 @@ public class JWTTokenProvider {
         String id = (String) claims.get("id");
         return Long.parseLong(id);
     }
+
 }

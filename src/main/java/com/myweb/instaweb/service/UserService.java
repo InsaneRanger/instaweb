@@ -37,17 +37,18 @@ public class UserService {
     public User createUser(SignupRequest userIn) {
         User user = new User();
         user.setEmail(userIn.getEmail());
-        user.setName(userIn.getLastname());
+        user.setName(userIn.getFirstname());
+        user.setLastname(userIn.getLastname());
         user.setUsername(userIn.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userIn.getPassword()));
         user.getRoles().add(Roles.ROLE_USER);
 
         try {
-            log.info("Saving user {}", userIn.getEmail());
+            log.info("Saving User {}", userIn.getEmail());
             return userRepository.save(user);
-        } catch (Exception exception) {
-            log.error("Error during registration {}", exception.getMessage());
-            throw new UserExistException("The user " + user.getUsername() + " alredy exist. Please check conditionals");
+        } catch (Exception e) {
+            log.error("Error during registration. {}", e.getMessage());
+            throw new UserExistException("The user " + user.getUsername() + " already exist. Please check credentials");
         }
     }
 }
