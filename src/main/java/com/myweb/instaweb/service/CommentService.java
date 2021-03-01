@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,5 +87,6 @@ public class CommentService {
         return userRepository.findUserByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException("Username not found with username "+username));
     }
+
 
 }
