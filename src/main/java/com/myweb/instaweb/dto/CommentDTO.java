@@ -20,4 +20,5 @@ public class CommentDTO {
     @NotEmpty
     private String message;
     private String username;
+
 }

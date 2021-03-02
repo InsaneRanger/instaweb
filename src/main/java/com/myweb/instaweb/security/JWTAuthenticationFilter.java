@@ -1,18 +1,10 @@
 package com.myweb.instaweb.security;
 
 
-
-
-/*
- * @author
- * @version
- * @return
- */
-
-
 import com.myweb.instaweb.entity.User;
 import com.myweb.instaweb.service.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -32,15 +24,17 @@ import java.util.Collections;
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-
+    @Autowired
     private JWTTokenProvider jwtTokenProvider;
 
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    public JWTAuthenticationFilter() {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.customUserDetailsService = customUserDetailsService;
-    }
+//    public JWTAuthenticationFilter(JWTTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService) {
+//        this.jwtTokenProvider = jwtTokenProvider;
+//        this.customUserDetailsService = customUserDetailsService;
+//    }
+
 
 
     @Override
