@@ -1,7 +1,6 @@
 # instaweb
-Spring and Angular project
+Spring JWT app 
 
-Angular client coming soon...
 
 Server side:
 
