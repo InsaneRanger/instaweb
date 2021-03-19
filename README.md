@@ -3,8 +3,12 @@ Spring JWT app
 
 [![Build Status](https://travis-ci.org/extranuts/instaweb.svg?branch=master)](https://travis-ci.org/extranuts/instaweb)
 
+Add CI Travis CI 
+
 
 Server side:
+
+
 
 Spring boot: WEB, Data, SECURITY, DevTools, Hibernate Validation  
 JWT (), Gson
