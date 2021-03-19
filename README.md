@@ -1,6 +1,8 @@
 # instaweb
 Spring JWT app 
 
+[![Build Status](https://travis-ci.org/extranuts/instaweb.svg?branch=master)](https://travis-ci.org/extranuts/instaweb)
+
 
 Server side:
 
